@@ -1,0 +1,75 @@
+.container {
+  height: 64vh;
+}
+
+.main {
+  background-color: #1e1e1e;
+  height: 100%;
+  width: 100%;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding-top: 4rem;
+  width: 36rem;
+}
+
+.tasksCount {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #333333;
+  color: #5e60ce;
+  font-weight: bold;
+}
+
+.tasksCount p:first-child {
+  color: #4ea8de;
+}
+
+.tasksContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.tasksContainer p {
+  color: #808080;
+}
+
+.tasksContainer p span {
+  font-weight: bold;
+}
+
+.tasksContainer ul {
+  width: 100%;
+}
+
+.tasksContainer li {
+  width: 100%;
+  list-style: none;
+  color: #f2f2f2f2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #262626;
+  border-radius: 6px;
+  margin-bottom: 0.8rem;
+  border: 1px solid #333333;
+}
+
+.lineTrough {
+  text-decoration: line-through;
+}
+
+.count {
+  background-color: #333333;
+  padding: 0.2rem 0.6rem;
+  border-radius: 16px;
+  margin-left: 0.2rem;
+  color: #d9d9d9;
+}
