@@ -1,8 +1,6 @@
 import styles from "./Header.module.css";
 import logo from "../../images/logo.svg";
-import Input from "../input/Input";
-import Button from "../button/Button";
-import { useState } from "react";
+import { CiCirclePlus } from "react-icons/ci";
 
 const Header = ({ onChange, onClick, value }) => {
   return (
@@ -13,13 +11,16 @@ const Header = ({ onChange, onClick, value }) => {
         <span className={styles.purple}>do</span>
       </h1>
       <div className={styles.container}>
-        <Input
+        <input
+          className={styles.input}
           type='text'
           placeholder='Adicione uma nova tarefa'
           onChange={onChange}
           value={value}
         />
-        <Button onClick={onClick} />
+        <button className={styles.button} onClick={onClick}>
+          Criar <CiCirclePlus style={{ fontSize: "16px" }} />
+        </button>
       </div>
     </header>
   );

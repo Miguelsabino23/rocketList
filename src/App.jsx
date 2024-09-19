@@ -8,16 +8,33 @@ import Li from "./assets/components/li/Li";
 const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [task, setTask] = useState([]);
+  const [completedCount, setCompletedCount] = useState(0);
 
   const handleClick = () => {
     if (inputValue.trim()) {
-      setTask((prevTask) => [...prevTask, inputValue]);
+      setTask((prevTask) => [
+        ...prevTask,
+        { text: inputValue, completed: false },
+      ]);
       setInputValue("");
     }
   };
 
   const removeTask = (index) => {
+    if (task[index].completed) {
+      setCompletedCount((prevCount) => prevCount - 1);
+    }
     setTask(task.filter((_, i) => i !== index));
+  };
+
+  const handleTaskCompletion = (isChecked, index) => {
+    const updatedTasks = task.map((t, i) =>
+      i === index ? { ...t, completed: isChecked } : t
+    );
+    setTask(updatedTasks);
+    setCompletedCount((prevCount) =>
+      isChecked ? prevCount + 1 : prevCount - 1
+    );
   };
 
   return (
@@ -37,7 +54,7 @@ const App = () => {
             <p>
               Concluídas{" "}
               <span className={styles.count}>
-                {task.length} de {}
+                {completedCount} de {task.length}
               </span>
             </p>
           </div>
@@ -48,9 +65,12 @@ const App = () => {
                 {task.map((lis, index) => (
                   <Li
                     key={index}
-                    children={lis}
+                    children={lis.text}
                     id={index}
                     onClick={() => removeTask(index)}
+                    onCheck={(isChecked) =>
+                      handleTaskCompletion(isChecked, index)
+                    }
                   />
                 ))}
               </ul>

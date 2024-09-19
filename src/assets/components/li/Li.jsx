@@ -2,14 +2,22 @@ import styles from "./Li.module.css";
 import { useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
-const Li = ({ children, id, onClick }) => {
+const Li = ({ children, id, onClick, onCheck }) => {
   const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    const checked = e.target.checked;
+    setIsChecked(checked);
+    onCheck(checked);
+  };
+
   return (
     <li className={isChecked ? styles["lineTrough"] : ""}>
       <input
         type='checkbox'
         id={id}
-        onChange={(e) => setIsChecked(e.target.checked)}
+        onChange={handleCheckboxChange}
+        checked={isChecked}
       />
       {children}
       <RiDeleteBin5Line
