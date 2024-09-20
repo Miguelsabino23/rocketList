@@ -1,16 +1,23 @@
+/* eslint-disable react/no-children-prop */
 import styles from "./App.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuClipboardList } from "react-icons/lu";
 
 import Header from "./assets/components/header/Header";
-import Li from "./assets/components/li/Li";
+import Tasks from "./assets/components/li/Tasks";
 
 const App = () => {
   const [inputValue, setInputValue] = useState("");
-  const [task, setTask] = useState([]);
+  const [tasks, setTask] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
   const [completedCount, setCompletedCount] = useState(0);
 
-  const handleClick = () => {
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addTask = () => {
     if (inputValue.trim()) {
       setTask((prevTask) => [
         ...prevTask,
@@ -21,14 +28,14 @@ const App = () => {
   };
 
   const removeTask = (index) => {
-    if (task[index].completed) {
+    if (tasks[index].completed) {
       setCompletedCount((prevCount) => prevCount - 1);
     }
-    setTask(task.filter((_, i) => i !== index));
+    setTask(tasks.filter((_, i) => i !== index));
   };
 
   const handleTaskCompletion = (isChecked, index) => {
-    const updatedTasks = task.map((t, i) =>
+    const updatedTasks = tasks.map((t, i) =>
       i === index ? { ...t, completed: isChecked } : t
     );
     setTask(updatedTasks);
@@ -41,7 +48,7 @@ const App = () => {
     <div className={styles.container}>
       <Header
         onChange={(e) => setInputValue(e.target.value)}
-        onClick={handleClick}
+        onClick={addTask}
         value={inputValue}
       />
       <main className={styles.main}>
@@ -49,23 +56,23 @@ const App = () => {
           <div className={styles.tasksCount}>
             <p>
               Tarefas criadas{" "}
-              <span className={styles.count}>{task.length}</span>
+              <span className={styles.count}>{tasks.length}</span>
             </p>
             <p>
               Concluídas{" "}
               <span className={styles.count}>
-                {completedCount} de {task.length}
+                {completedCount} de {tasks.length}
               </span>
             </p>
           </div>
 
-          {task.length > 0 ? (
+          {tasks.length > 0 ? (
             <div className={styles.tasksContainer}>
               <ul>
-                {task.map((lis, index) => (
-                  <Li
+                {tasks.map((task, index) => (
+                  <Tasks
                     key={index}
-                    children={lis.text}
+                    children={task.text}
                     id={index}
                     onClick={() => removeTask(index)}
                     onCheck={(isChecked) =>

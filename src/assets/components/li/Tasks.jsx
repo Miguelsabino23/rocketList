@@ -1,8 +1,9 @@
-import styles from "./Li.module.css";
+/* eslint-disable react/prop-types */
+import styles from "./Tasks.module.css";
 import { useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
-const Li = ({ children, id, onClick, onCheck }) => {
+const Tasks = ({ children, id, onClick, onCheck }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (e) => {
@@ -33,4 +34,4 @@ const Li = ({ children, id, onClick, onCheck }) => {
   );
 };
 
-export default Li;
+export default Tasks;
