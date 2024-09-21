@@ -1,7 +1,8 @@
-/* eslint-disable react/no-children-prop */
 import styles from "./App.module.css";
 import { useEffect, useState } from "react";
 import { LuClipboardList } from "react-icons/lu";
+import { CiCirclePlus } from "react-icons/ci";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 import Header from "./assets/components/header/Header";
 import Tasks from "./assets/components/li/Tasks";
@@ -15,42 +16,45 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    const completedTasks = tasks.filter((task) => task.isChecked).length;
+    setCompletedCount(completedTasks);
   }, [tasks]);
 
   const addTask = () => {
     if (inputValue.trim()) {
       setTask((prevTask) => [
         ...prevTask,
-        { text: inputValue, completed: false },
+        { text: inputValue, isChecked: false },
       ]);
       setInputValue("");
     }
   };
 
   const removeTask = (index) => {
-    if (tasks[index].completed) {
-      setCompletedCount((prevCount) => prevCount - 1);
-    }
     setTask(tasks.filter((_, i) => i !== index));
   };
 
-  const handleTaskCompletion = (isChecked, index) => {
-    const updatedTasks = tasks.map((t, i) =>
-      i === index ? { ...t, completed: isChecked } : t
+  const handleTaskCompletion = (index) => {
+    const updatedTasks = tasks.map((task, i) =>
+      i === index ? { ...task, isChecked: !task.isChecked } : task
     );
     setTask(updatedTasks);
-    setCompletedCount((prevCount) =>
-      isChecked ? prevCount + 1 : prevCount - 1
-    );
   };
 
   return (
     <div className={styles.container}>
-      <Header
-        onChange={(e) => setInputValue(e.target.value)}
-        onClick={addTask}
-        value={inputValue}
-      />
+      <Header>
+        <input
+          className={styles.input}
+          type='text'
+          placeholder='Adicione uma nova tarefa'
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
+        />
+        <button className={styles.button} onClick={addTask}>
+          Criar <CiCirclePlus style={{ fontSize: "16px" }} />
+        </button>
+      </Header>
       <main className={styles.main}>
         <div className={styles.mainContainer}>
           <div className={styles.tasksCount}>
@@ -70,15 +74,27 @@ const App = () => {
             <div className={styles.tasksContainer}>
               <ul>
                 {tasks.map((task, index) => (
-                  <Tasks
-                    key={index}
-                    children={task.text}
-                    id={index}
-                    onClick={() => removeTask(index)}
-                    onCheck={(isChecked) =>
-                      handleTaskCompletion(isChecked, index)
-                    }
-                  />
+                  <Tasks key={index}>
+                    <input
+                      type='checkbox'
+                      checked={task.isChecked}
+                      onChange={() => handleTaskCompletion(index)}
+                    />
+                    <span
+                      className={task.isChecked ? styles["lineTrough"] : ""}
+                    >
+                      {task.text}
+                    </span>
+                    <RiDeleteBin5Line
+                      onClick={() => removeTask(index)}
+                      style={{
+                        color: "#808080",
+                        cursor: "pointer",
+                        height: "20px",
+                        width: "20px",
+                      }}
+                    />
+                  </Tasks>
                 ))}
               </ul>
             </div>
