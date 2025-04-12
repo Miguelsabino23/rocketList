@@ -42,7 +42,7 @@ const App = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <Header>
         <input
           className={styles.input}
@@ -65,7 +65,9 @@ const App = () => {
             <p>
               Concluídas{" "}
               <span className={styles.count}>
-                {completedCount} de {tasks.length}
+                {tasks.length === 0
+                  ? 0
+                  : completedCount + " de " + tasks.length}
               </span>
             </p>
           </div>
@@ -75,11 +77,14 @@ const App = () => {
               <ul>
                 {tasks.map((task, index) => (
                   <Tasks key={index}>
-                    <input
-                      type='checkbox'
-                      checked={task.isChecked}
-                      onChange={() => handleTaskCompletion(index)}
-                    />
+                    <label className={styles.radioStyle}>
+                      <input
+                        type='checkbox'
+                        checked={task.isChecked}
+                        onChange={() => handleTaskCompletion(index)}
+                      />
+                      <span className={styles.customCircle}></span>
+                    </label>
                     <span
                       className={task.isChecked ? styles["lineTrough"] : ""}
                     >

@@ -1,11 +1,8 @@
-.container {
-  height: 64vh;
-}
-
 .main {
   background-color: #1e1e1e;
-  height: 100%;
+  height: 100svh;
   width: 100%;
+  min-height: max-content;
 }
 
 .mainContainer {
@@ -103,4 +100,59 @@
 
 .lineTrough {
   text-decoration: line-through;
+}
+
+.radioStyle {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+}
+
+.radioStyle input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.customCircle {
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: transparent;
+  border: 2px solid #4ea8de;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.customCircle:hover {
+  background-color: #1e6f9f;
+}
+
+.customCircle:after {
+  content: "";
+  position: absolute;
+  display: none;
+  top: 6px;
+  left: 2px;
+  width: 10px;
+  height: 2px;
+  background-color: white;
+  border-radius: 1px;
+}
+.radioStyle input:checked ~ .customCircle:after {
+  display: block;
+}
+
+.radioStyle input:checked ~ .customCircle {
+  border-color: #5e60ce;
+  background-color: #5e60ce;
+}
+
+.radioStyle input:checked ~ .customCircle:hover {
+  border-color: #8284fa;
+  background-color: #8284fa;
 }
